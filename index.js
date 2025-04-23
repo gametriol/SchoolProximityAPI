@@ -4,7 +4,22 @@ const app = express();
 app.use(express.json());
 require("dotenv").config();
 
+const db = mysql.createConnection({
+  host: process.env.MYSQLHOST,
+  user: process.env.MYSQLUSER,
+  password: process.env.MYSQLPASSWORD,
+  database: process.env.MYSQLDATABASE,
+  port: process.env.MYSQLPORT
+});
 
+// 3. Connect to DB
+db.connect((err) => {
+  if (err) {
+    console.error('MySQL connection error:', err);
+  } else {
+    console.log('Connected to Railway MySQL 🛤️');
+  }
+});
 app.post("/addSchool", async (req, res) => {
   const { name, address, latitude, longitude } = req.body;
   if (!name || !address || !latitude || !longitude) {
@@ -14,7 +29,7 @@ app.post("/addSchool", async (req, res) => {
   try {
     const [result] = await db.execute(
       "INSERT INTO schools (name, address, latitude, longitude) VALUES (?, ?, ?, ?)",
-      [name, address, latitude, longitude]
+      [name, address, latitude, longitude]  
     );
     res.status(201).json({ message: "School added", id: result.insertId });
   } catch (error) {
