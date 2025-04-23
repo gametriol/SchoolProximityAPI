@@ -2,8 +2,9 @@ const express = require("express");
 const db = require("./db");
 const app = express();
 app.use(express.json());
+require("dotenv").config();
 
-// POST /addSchool
+
 app.post("/addSchool", async (req, res) => {
   const { name, address, latitude, longitude } = req.body;
   if (!name || !address || !latitude || !longitude) {
@@ -21,7 +22,7 @@ app.post("/addSchool", async (req, res) => {
   }
 });
 
-// GET /listSchools?lat=xx&lng=yy
+
 app.get("/listSchools", async (req, res) => {
   const { lat, lng } = req.query;
   if (!lat || !lng) {
@@ -45,6 +46,7 @@ app.get("/listSchools", async (req, res) => {
 });
 
 
-app.listen(3000, () => {
-  console.log("Server running on http://localhost:3000");
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });
