@@ -11,7 +11,7 @@ app.post("/addSchool", async (req, res) => {
 
   try {
     const [result] = await db.execute(
-      "INSERT INTO schools (name, address, latitude, longitude) VALUES (?, ?, ?, ?)",
+      "INSERT INTO schoolDB (name, address, latitude, longitude) VALUES (?, ?, ?, ?)",
       [name, address, latitude, longitude]  
     );
     res.status(201).json({ message: "School added", id: result.insertId });
