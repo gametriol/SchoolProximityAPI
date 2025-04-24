@@ -28,7 +28,7 @@ app.get("/listSchools", async (req, res) => {
   }
 
   try {
-    const [schools] = await db.execute("SELECT * FROM schools");
+    const [schools] = await db.execute("SELECT * FROM schoolDB");
     const withDistance = schools.map((school) => {
       const distance = Math.sqrt(
         Math.pow(school.latitude - lat, 2) + Math.pow(school.longitude - lng, 2)
